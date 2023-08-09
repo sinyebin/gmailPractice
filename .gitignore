@@ -49,7 +49,7 @@ gradle-app.setting
 
 # IntelliJ
 .idea
-
+out
 
 # IgnoreJson
 src/main/resources/credentials.json

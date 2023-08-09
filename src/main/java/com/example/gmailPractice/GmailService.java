@@ -47,7 +47,7 @@ public class GmailService {
     private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_LABELS);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-    public Object quickStart() throws GeneralSecurityException, IOException {
+    public Object getList() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Gmail service = new Gmail.Builder(HTTP_TRANSPORT,JSON_FACTORY,getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
@@ -62,6 +62,50 @@ public class GmailService {
         }
     }
 
+    public Object createLabel() throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Gmail service = new Gmail.Builder(HTTP_TRANSPORT,JSON_FACTORY,getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+        String user = "me";
+        Label label = new Label();
+        label.setLabelListVisibility("labelShow");
+        label.setMessageListVisibility("show");
+        label.setName("샘플");
+        Label listLabelsResponse = service.users().labels().create(user,label).execute();
+        Label labels = listLabelsResponse.clone();
+        if(labels.isEmpty()){
+            return ("No labels found.");
+        }else{
+            return labels;
+        }
+    }
+
+    public Object getLabel() throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Gmail service = new Gmail.Builder(HTTP_TRANSPORT,JSON_FACTORY,getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+        String user = "me";
+        Label listLabelsResponse = service.users().labels().get(user,"Label_6").execute();
+        Label labels = listLabelsResponse.clone();
+        if(labels.isEmpty()){
+            return ("No labels found.");
+        }else{
+            return labels;
+        }
+    }
+
+
+    public Object delLabel() throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Gmail service = new Gmail.Builder(HTTP_TRANSPORT,JSON_FACTORY,getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+        String user = "me";
+        service.users().labels().delete(user,"Label_6").execute();
+        return null;
+    }
     /**
      * Creates an authorized Credential object.
      *
