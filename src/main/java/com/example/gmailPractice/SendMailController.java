@@ -16,7 +16,7 @@ public class SendMailController {
 
     @GetMapping("/draft")
     public Object delLabel() throws GeneralSecurityException, IOException, MessagingException {
-        return sendMailService.createDraftMessage("dpqls0625@gmail.com","dpqls0625@gmail.com");
+        return sendMailService.createDraftMessage("dpqls0625@gmail.com","dpqls0625@gmail.com", "초안 메시지 샘플", "이건 메시지 메시지");
     }
 
     @GetMapping("/sendEmail")
